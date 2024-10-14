@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regex Tester</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        label {
+            color: #555;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        textarea {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result-section {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            border-radius: 4px;
+        }
+
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: #007bff;
+        }
+
+        .result-title {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #888;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Regex Tester</h1>
+        <form method="POST" onsubmit="showResultSection()">
+            <label for="pattern">Regex Pattern:</label>
+            <input type="text" id="pattern" name="pattern" value="{{ pattern }}" placeholder="Enter regex pattern (e.g., \\d+)" required>
+
+            <label for="test_string">Test String:</label>
+            <textarea id="test_string" name="test_string" rows="5" placeholder="Enter text to test against the regex" required>{{ test_string }}</textarea>
+
+            <button type="submit">Test Regex</button>
+            <div class="loading" id="loading-message">Testing your regex pattern...</div>
+        </form>
+
+        <div id="result-section">
+            <h2 class="result-title">Result:</h2>
+            {% if result %}
+                <pre>{{ result }}</pre>
+            {% else %}
+                <p>No matches found.</p>
+            {% endif %}
+        </div>
+        
+        <div class="footer">
+            <p>Powered by Flask | Designed for Regex Enthusiasts</p>
+        </div>
+    </div>
+
+    <script>
+        function showResultSection() {
+            // Show the loading message
+            document.getElementById('loading-message').style.display = 'block';
+            // Show the result section after form submission
+            document.getElementById('result-section').style.display = 'block';
+        }
+
+        // If there's a result (from a previous POST), make the result section visible
+        {% if result %}
+            document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('result-section').style.display = 'block';
+                document.getElementById('loading-message').style.display = 'none';
+            });
+        {% endif %}
+    </script>
+</body>
+</html>
